@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <!--通过引入外部配置文件properties注册环境-->
+    <properties resource="db.properties">
+        <!--可以再次设置引入的properties中的值，但是默认优先级为引用的properties文件最高-->
+        <property name="password" value="1111"/>
+    </properties>
+
+
+    <typeAliases>
+        <!--自定义别名-->
+        <typeAlias type="study.qi.pojo.Student" alias="User"/>
+
+        <!--根据包扫描后设置别名，默认为类名的小写形式，也可以在相应类上通过注解@Alias()设置别名-->
+        <!--<package name="study.qi.pojo.Student"/>-->
+    </typeAliases>
+
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+<!--                /mybatis?useSSL=true&amp;useUnicode=true&amp;characterEncoding=UTF-8-->
+                <property name="url" value="jdbc:mysql://localhost:3306/mybatis?useSSL=true&amp;useUnicode=true&amp;characterEncoding=UTF-8"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+
+        <!--通过properties设置环境属性-->
+        <environment id="properties">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+
+    <!--    每一个mapper.xml都需要在mybatis核心配置文件中注册-->
+    <mappers>
+        <!--方式一：使用resource配置xml-->
+        <mapper resource="study/qi/dao/UserMapper.xml"/>
+
+        <!--方式二：通过class文件绑定注册
+            注意：接口和它的Mapper配置文件必须同名
+                接口和它的Mapper配置文件必须在同一个包下
+        -->
+        <!--<mapper class="study.qi.pojo.Student"/>-->
+
+        <!--方式三：通过扫描包配置
+        注意：接口和它的Mapper配置文件必须同名
+             接口和它的Mapper配置文件必须在同一个包下
+        -->
+        <!--<package name="study.qi.pojo"/>-->
+    </mappers>
+
+</configuration>

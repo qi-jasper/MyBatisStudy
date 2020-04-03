@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--    namespace=绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="study.qi.dao.UserMapper">
+
+    <!--    查询语句，id对应UserMapper中方法名字-->
+<!--    返回结果写泛型中的类型-->
+    <select id="getUserList" resultType="User">
+        select * from user
+    </select>
+
+    <select id="getUserById" parameterType="int" resultType="User">
+        select * from user where id = #{id}
+    </select>
+
+
+    <insert id="insertUser" parameterType="User">
+        insert into user (id, name, pwd) values (#{id}, #{name}, #{pwd});
+    </insert>
+
+    <insert id="addUser" parameterType="map">
+        insert into user (id, name, pwd) values (#{userid}, #{userName}, #{pwd});
+    </insert>
+
+    <!--传递map里的key-->
+    <update id="updateUser" parameterType="User">
+        update user set name=#{name}, pwd=#{pwd} where id=#{id};
+    </update>
+
+    <delete id="deleteUser" parameterType="int">
+        delete from user where id=#{id};
+    </delete>
+
+</mapper>
